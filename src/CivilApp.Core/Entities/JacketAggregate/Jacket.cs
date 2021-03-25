@@ -1,5 +1,4 @@
-﻿using CivilApp.API.JacketEndpoints;
-using CivilApp.Core.Entities.Lookups;
+﻿using CivilApp.Core.Entities.Lookups;
 using CivilApp.Core.Interfaces;
 
 using System;

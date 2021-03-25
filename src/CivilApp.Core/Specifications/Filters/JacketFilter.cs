@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace CivilApp.Core.Specifications.Filters
 {
-    public record JacketFilter(string? JacketNumber, string? Defendant, string? Plaintiff, string ReceivedFrom, int Page, int PageSize) : 
-        BaseFilter(Page, PageSize);
+    public record JacketFilter(string? JacketNumber, string? Defendant, string? Plaintiff, string? ReceivedFrom, int Page, int PageSize, List<SortField> SortProperties) : 
+        BaseFilter(Page, PageSize, SortProperties);
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CivilApp.Core.Specifications;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace CivilApp.API.JacketEndpoints
 {
-    public record BaseRequest(int Page, int PageSize);
+    public record CreateJacketCommand(string JacketNumber);
 
-    public record JacketRequest(string? JacketNumber, string? Defendant, string? Plaintiff, string? ReceivedFrom, string? ServeTo, 
-        string? ServeToAddress, string? CourtCaseNumber, string? CSPNumber, int Page, int PageSize) :
-        BaseRequest(Page, PageSize);
+    public record CreateJacketFromSubpoenaCommand(string JacketNumber, DateTime AppearanceDateTime, string Defendant, string ServeToName, string ServeToAddress, string ServeToCity,
+        string ServeToState, string ServeToZip, string ServeToNotes, string SubpoenaType, Guid ServiceLogId);
+
+
 }
