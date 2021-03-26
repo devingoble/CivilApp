@@ -51,8 +51,8 @@ namespace CivilApp.API.JacketEndpoints
             public MappingProfile() => CreateMap<Jacket, JacketResponse>();
         }
 
-        public record JacketRequest(string? JacketNumber, string? Defendant, string? Plaintiff, string? ReceivedFrom, string? ServeTo,
-            string? ServeToAddress, string? CourtCaseNumber, string? CSPNumber, int Page, int PageSize, string SortBy, SortOrder SortOrder) : IRequest<ListResponse>;
+        public record JacketRequest(int? JacketYear, int? JacketSequence, string? Defendant, string? Plaintiff, string? ReceivedFrom, string? ServeTo,
+            string? ServeToAddress, string? CourtCaseNumber, string? CSPNumber, int Page, int PageSize, List<SortField> SortFields) : IRequest<ListResponse>;    
 
         public record ListResponse(JacketResponse Jackets, int JacketCount, int CurrentPage, int PageCount);
 
@@ -70,7 +70,7 @@ namespace CivilApp.API.JacketEndpoints
 
             public Task<ListResponse> Handle(JacketRequest request, CancellationToken cancellationToken)
             {
-                var filter = new JacketFilter(request.JacketNumber, request.Defendant, request.Plaintiff, request.ReceivedFrom, request.Page, request.PageSize, request.SortBy, request.SortOrder);
+                var filter = new JacketFilter(request.JacketYear, request.JacketSequence, request.Defendant, request.Plaintiff, request.ReceivedFrom, request.Page, request.PageSize, request.SortFields);
 
                 
             }

@@ -15,6 +15,9 @@ namespace CivilApp.Infrastructure.Data.Config
     {
         public void Configure(EntityTypeBuilder<Jacket> builder)
         {
+            builder.Property(b => b.JacketYear).IsRequired();
+            builder.Property(b => b.JacketSequence).IsRequired();
+            builder.Property(b => b.JacketNumber).HasComputedColumnSql("[JacketYear]+ '-' + [JacketSequence]", true);
             builder.Property(b => b.State).HasMaxLength(50);
             builder.Property(b => b.City).HasMaxLength(50);
             builder.Property(b => b.County).HasMaxLength(100);

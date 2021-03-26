@@ -17,13 +17,33 @@ namespace CivilApp.Core.Specifications
     {
         public JacketSpecification(JacketFilter filter)
         {
-            if(filter.SortProperties.Count == 0)
+            if(filter.SortFields.Count == 0)
             {
-                Query.OrderByDescending(q => q.ReceivedDate).ThenByDescending(q => q.JacketNumber);
+                Query.OrderByDescending(j => j.ReceivedDate).ThenByDescending(j => j.JacketNumber);
             }
             else
             {
-                Query.OrderBy(filter.SortProperties);
+                Query.OrderBy(filter.SortFields);
+            }
+
+            if(filter.JacketYear != null && filter.JacketSequence != null)
+            {
+                Query.Where(j => j.JacketYear == filter.JacketYear && filter.JacketSequence == filter.JacketSequence);
+            }
+
+            if(filter.Defendant != null)
+            {
+                Query.Where(j => j.Defendants.Any(d => d.Name.Contains(filter.Defendant)));
+            }
+
+            if(filter.Plaintiff != null)
+            {
+                Query.Where(j => j.Plaintiffs.Any(p => p.Name.Contains(filter.Plaintiff)));
+            }
+
+            if(filter.ReceivedFrom != null)
+            {
+                Query.Where(j => j.ReceivedFrom.Contains(filter.ReceivedFrom));
             }
         }
     }

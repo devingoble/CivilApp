@@ -13,6 +13,8 @@ namespace CivilApp.Core.Entities.JacketAggregate
     public class Jacket : BaseEntity, IAggregateRoot
     {
         public string JacketNumber { get; private set; }
+        public int JacketYear { get; private set; }
+        public int JacketSequence { get; private set; }
         public Guid GroupId { get; private set; }
         public bool ShouldNotAllowSubstituteService { get; private set; } = false;
         public bool ShouldEnterIntoLEDS { get; private set; } = false;
