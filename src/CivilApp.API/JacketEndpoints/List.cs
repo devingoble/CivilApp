@@ -21,16 +21,14 @@ using System.Threading.Tasks;
 
 namespace CivilApp.API.JacketEndpoints
 {
-    public class List : BaseAsyncEndpoint.WithRequest<List.JacketRequest>.WithResponse<IList<List.ListResponse>>
+    public class List : BaseAsyncEndpoint.WithRequest<List.JacketRequest>.WithResponse<List.ListResponse>
     {
         private readonly IAsyncRepository<Jacket> _repository;
-        private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
-        public List(IAsyncRepository<Jacket> repository, IMapper mapper, IMediator mediator)
+        public List(IAsyncRepository<Jacket> repository, IMediator mediator)
         {
             _repository = repository;
-            _mapper = mapper;
             _mediator = mediator;
         }
 
@@ -41,9 +39,9 @@ namespace CivilApp.API.JacketEndpoints
             OperationId = "Jacket.List",
             Tags = new[] { "JacketEndpoint" })
         ]
-        public override Task<ActionResult<IList<ListResponse>>> HandleAsync(JacketRequest query, CancellationToken cancellationToken = default)
+        public async override Task<ActionResult<ListResponse>> HandleAsync(JacketRequest query, CancellationToken cancellationToken = default)
         {
-            
+            return await _mediator.Send(query);
         }
 
         public class MappingProfile : Profile
@@ -54,7 +52,7 @@ namespace CivilApp.API.JacketEndpoints
         public record JacketRequest(int? JacketYear, int? JacketSequence, string? Defendant, string? Plaintiff, string? ReceivedFrom, string? ServeTo,
             string? ServeToAddress, string? CourtCaseNumber, string? CSPNumber, int Page, int PageSize, List<SortField> SortFields) : IRequest<ListResponse>;    
 
-        public record ListResponse(JacketResponse Jackets, int JacketCount, int CurrentPage, int PageCount);
+        public record ListResponse(IReadOnlyList<JacketResponse> Jackets, int JacketCount, int CurrentPage, int PageCount);
 
         public record JacketResponse(string JacketNumber, DateTime ReceivedDate, string ReceivedFrom, string Defendant, string ServeTo,
             string Status, DateTime? ServiceDate, string ActualServeTo);
@@ -62,17 +60,26 @@ namespace CivilApp.API.JacketEndpoints
         public class JacketRequestHandler : IRequestHandler<JacketRequest, ListResponse>
         {
             private readonly IAsyncRepository<Jacket> _repository;
+            private readonly IMapper _mapper;
 
-            public JacketRequestHandler(IAsyncRepository<Jacket> repository)
+            public JacketRequestHandler(IAsyncRepository<Jacket> repository, IMapper mapper)
             {
                 _repository = repository;
+                _mapper = mapper;
             }
 
-            public Task<ListResponse> Handle(JacketRequest request, CancellationToken cancellationToken)
+            public async Task<ListResponse> Handle(JacketRequest request, CancellationToken cancellationToken)
             {
                 var filter = new JacketFilter(request.JacketYear, request.JacketSequence, request.Defendant, request.Plaintiff, request.ReceivedFrom, request.Page, request.PageSize, request.SortFields);
+                var spec = new JacketSpecification(filter);
 
+                var totalJackets = await _repository.CountAsync(spec, cancellationToken);
+                var pageCount = (int)Math.Ceiling((decimal)totalJackets / request.PageSize);
+                var jackets = await _repository.ListAsync(spec, cancellationToken);
                 
+                var response = new ListResponse(jackets.Select(_mapper.Map<JacketResponse>).ToList(), totalJackets, request.Page, pageCount);
+
+                return response;
             }
         }
 
