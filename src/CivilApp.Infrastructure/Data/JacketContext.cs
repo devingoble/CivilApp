@@ -1,4 +1,6 @@
-﻿using CivilApp.Core.Entities.JacketAggregate;
+﻿using Ardalis.Specification;
+
+using CivilApp.Core.Entities.JacketAggregate;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -26,6 +28,8 @@ namespace CivilApp.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.HasSequence<int>("JacketNumbers").StartsAt(1).IncrementsBy(1);
+
             base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }

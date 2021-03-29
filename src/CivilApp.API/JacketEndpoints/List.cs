@@ -23,12 +23,10 @@ namespace CivilApp.API.JacketEndpoints
 {
     public class List : BaseAsyncEndpoint.WithRequest<List.JacketRequest>.WithResponse<List.ListResponse>
     {
-        private readonly IAsyncRepository<Jacket> _repository;
         private readonly IMediator _mediator;
 
         public List(IAsyncRepository<Jacket> repository, IMediator mediator)
         {
-            _repository = repository;
             _mediator = mediator;
         }
 
@@ -50,7 +48,7 @@ namespace CivilApp.API.JacketEndpoints
         }
 
         public record JacketRequest(int? JacketYear, int? JacketSequence, string? Defendant, string? Plaintiff, string? ReceivedFrom, string? ServeTo,
-            string? ServeToAddress, string? CourtCaseNumber, string? CSPNumber, int Page, int PageSize, List<SortField> SortFields) : IRequest<ListResponse>;    
+            string? ServeToAddress, string? CourtCaseNumber, string? CSPNumber, int Page, int PageSize, List<SortField> SortFields) : IRequest<ListResponse>;
 
         public record ListResponse(IReadOnlyList<JacketResponse> Jackets, int JacketCount, int CurrentPage, int PageCount);
 
@@ -82,6 +80,5 @@ namespace CivilApp.API.JacketEndpoints
                 return response;
             }
         }
-
     }
 }

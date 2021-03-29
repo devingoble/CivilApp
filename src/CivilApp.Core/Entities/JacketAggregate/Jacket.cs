@@ -49,23 +49,20 @@ namespace CivilApp.Core.Entities.JacketAggregate
         public Guid ServiceLogId { get; private set; }
         public bool HasSubpoena { get; private set; } = false;
 
-        public Jacket(CreateJacketCommand command)
+        public Jacket()
         {
-            JacketNumber = command.JacketNumber;
         }
 
-        public Jacket(CreateJacketFromSubpoenaCommand command)
-        {
-            JacketNumber = command.JacketNumber;
-
-            var def = new Party(command.Defendant);
-            AddDefendant(def);
+        //public Jacket(CreateJacketFromSubpoenaCommand command)
+        //{
+        //    var def = new Party(command.Defendant);
+        //    AddDefendant(def);
             
-            var serve = new Party(command.ServeToName);
-            serve.AddAddress(new Address(command.ServeToNotes, command.ServeToAddress, command.ServeToCity, command.ServeToZip));
+        //    var serve = new Party(command.ServeToName);
+        //    serve.AddAddress(new Address(command.ServeToNotes, command.ServeToAddress, command.ServeToCity, command.ServeToZip));
             
-            AddServeTo(serve);
-        }
+        //    AddServeTo(serve);
+        //}
 
         public void AddDefendant(Party defendant)
         {
