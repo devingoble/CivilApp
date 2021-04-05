@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 
 using CivilApp.Core.Interfaces;
 using CivilApp.Core.Services;
+using CivilApp.Infrastructure.Data;
+using CivilApp.Infrastructure.Services;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,6 +39,9 @@ namespace CivilApp.API
             });
 
             services.AddScoped(typeof(IAppLogger<>), typeof(LogAdapter<>));
+            services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
+            services.AddScoped<IDateTimeService, DateTimeService>();
+            services.AddScoped<IJacketSequenceService, JacketSequenceService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

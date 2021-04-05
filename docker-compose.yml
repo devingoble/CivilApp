@@ -5,7 +5,7 @@ services:
     image: ${DOCKER_REGISTRY-}civilappapi
     build:
       context: .
-      dockerfile: src/civilapp.api/Dockerfile
+      dockerfile: Dockerfile
     ports:
       - 80     
   civilapp.data:
@@ -17,6 +17,9 @@ services:
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: /run/secrets/sql_sa_password
+      MSSQL_DATA_DIR: /data
+    volumes:
+      - ./.data:data
 secrets:
     sql_sa_password:
-        file: ./secrets/sql_sa_password.txt
+        file: ./.secrets/sql_sa_password.txt

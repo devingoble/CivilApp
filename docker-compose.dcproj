@@ -9,13 +9,12 @@
     <DockerServiceName>civilapp.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
+    <None Include=".secrets\sql_sa_password.txt" />
     <None Include="docker-compose.override.yml">
       <DependentUpon>docker-compose.yml</DependentUpon>
     </None>
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="secrets\" />
+    <None Include="Dockerfile" />
   </ItemGroup>
 </Project>
