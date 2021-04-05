@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  civilapp.api:
+    image: ${DOCKER_REGISTRY-}civilappapi
+    build:
+      context: .
+      dockerfile: src/civilapp.api/Dockerfile
+    ports:
+      - 80     
+  civilapp.data:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - 1433
+    secrets:
+      - sql_sa_password
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: /run/secrets/sql_sa_password
+secrets:
+    sql_sa_password:
+        file: ./secrets/sql_sa_password.txt
