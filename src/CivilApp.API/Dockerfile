@@ -7,9 +7,9 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ./src/CivilApp.API/CivilApp.API.csproj ./
-COPY ./src/CivilApp.Core/CivilApp.Core.csproj ./
-COPY ./src/CivilApp.Infrastructure/CivilApp.Infrastructure.csproj ./
+COPY ./CivilApp.API/CivilApp.API.csproj ./
+COPY ./CivilApp.Core/CivilApp.Core.csproj ./
+COPY ./CivilApp.Infrastructure/CivilApp.Infrastructure.csproj ./
 
 RUN dotnet restore "CivilApp.API.csproj"
 COPY . .

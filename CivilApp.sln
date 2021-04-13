@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CivilApp.Core", "src\civila
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CivilApp.Infrastructure", "src\civilapp.Infrastructure\CivilApp.Infrastructure.csproj", "{3D473B23-E28E-478F-8CB3-1A8EDB0DD54C}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{5563B4D5-BC55-4F18-B6FF-ADA38E606B86}"
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "src\docker-compose.dcproj", "{5563B4D5-BC55-4F18-B6FF-ADA38E606B86}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
