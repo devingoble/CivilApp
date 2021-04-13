@@ -19,7 +19,7 @@ services:
       SA_PASSWORD: /run/secrets/sql_sa_password
       MSSQL_DATA_DIR: /data
     volumes:
-      - ./.data:data
+      - ./.data:/data
 secrets:
     sql_sa_password:
         file: ./.secrets/sql_sa_password.txt
