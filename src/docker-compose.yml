@@ -1,14 +1,16 @@
 version: '3.4'
 
 services:
-  civilapp.api:
+  civilapp-api:
     image: ${DOCKER_REGISTRY-}civilappapi
     build:
       context: ./CivilApp.API/
       dockerfile: Dockerfile
     ports:
-      - 80     
-  civilapp.data:
+      - 80
+    depends_on:
+      - civilapp-data
+  civilapp-data:
     build:
       context: ./database/
       dockerfile: Dockerfile

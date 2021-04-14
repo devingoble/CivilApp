@@ -24,7 +24,7 @@ namespace CivilApp.API
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true)
-            .AddEnvironmentVariables()
+            .AddEnvironmentVariables("civilapp_")
             .Build();
 
         public static void Main(string[] args)
@@ -54,7 +54,7 @@ namespace CivilApp.API
                         sinkOptions: new MSSqlServerSinkOptions()
                         {
                             SchemaName = "Logging",
-                            TableName = "RMSReports",
+                            TableName = "CivilAppLogs",
                             AutoCreateSqlTable = true
                         },
                         columnOptions: colOpts
