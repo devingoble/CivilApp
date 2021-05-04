@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using CivilApp.Core.Configuration;
 using CivilApp.Core.Interfaces;
 using CivilApp.Core.Services;
 using CivilApp.Infrastructure.Data;
@@ -45,7 +46,10 @@ namespace CivilApp.API
             services.AddScoped<IJacketSequenceService, JacketSequenceService>();
             services.AddDbContext<JacketContext>(options =>
             {
-                options.UseSqlServer();
+                options.UseSqlServer(ConnectionStringBuilder.BuildSQLConnectionString(
+                    Configuration.GetValue<string>("DATABASE_SERVER"), Configuration.GetValue<string>("DATABASE"),
+                    Configuration.GetValue<string>("CIVILAPP_USERNAME"),
+                    Configuration.GetValue<string>("CIVILAPP_PASSWORD")));
             });
         }
 

@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
+using CivilApp.Core.Configuration;
+
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -25,11 +27,12 @@ namespace CivilApp.API
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true)
             .AddEnvironmentVariables("civilapp_")
+            .AddKeyPerFile("/run/secrets")
             .Build();
 
         public static void Main(string[] args)
         {
-            var logDB = Configuration.GetConnectionString("SerilogConnection");
+            var logConnectionString = ConnectionStringBuilder.BuildSQLConnectionString(Configuration.GetValue<string>("DATABASE_SERVER"), Configuration.GetValue<string>("DATABASE"), Configuration.GetValue<string>("CIVILAPP_USERNAME"), Configuration.GetValue<string>("CIVILAPP_PASSWORD"));
             var colOpts = new ColumnOptions();
             colOpts.Store.Remove(StandardColumn.Properties);
             colOpts.Store.Add(StandardColumn.LogEvent);
@@ -50,7 +53,7 @@ namespace CivilApp.API
                     .WriteTo.Console(
                         outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}")
                     .WriteTo.MSSqlServer(
-                        connectionString: logDB,
+                        connectionString: logConnectionString,
                         sinkOptions: new MSSqlServerSinkOptions()
                         {
                             SchemaName = "Logging",

@@ -1,28 +1,42 @@
-version: '3.4'
+version: '3.7'
 
 services:
   civilapp-api:
-    image: ${DOCKER_REGISTRY-}civilappapi
     build:
-      context: ./CivilApp.API/
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./CivilApp.API/Dockerfile
     ports:
-      - 80
+      - 80:80
     depends_on:
       - civilapp-data
+    environment:
+      CIVILAPP_DATABASE_SERVER: ${CIVILAPP_DATABASE_SERVER}
+      CIVILAPP_DATABASE: ${CIVILAPP_DATABASE}
+      CIVILAPP_SECRETS_PATH: ${CIVILAPP_SECRETS_PATH}
+    secrets:
+      - civilapp_username
+      - civilapp_password
   civilapp-data:
     build:
-      context: ./database/
+      context: ./database
       dockerfile: Dockerfile
     ports:
-      - 1433
+      - 1433:1433
     secrets:
       - sql_sa_password
+      - civilapp_username
+      - civilapp_password
     environment:
       ACCEPT_EULA: "Y"
-      SA_PASSWORD: /run/secrets/sql_sa_password
+      SA_PASSWORD_FILE: /run/secrets/sql_sa_password
       MSSQL_DATA_DIR: /data
-      CIVILAPP_DB: civilapp
+      MSSQL_BACKUP_DIR: /data/bak
+      MSSQL_LOG_DIR: /data/logs
+      MSSQL_DUMP_DIR: /data/dump
+      MSSQL_MASTER_DATA_FILE: /data/master.mdf
+      MSSQL_MASTER_LOG_FILE: /data/mastlog.ldf
+      MSSQL_ERROR_LOG_FILE: /data/error.ldf
+      CIVILAPP_DATABASE: ${CIVILAPP_DATABASE}
       CIVILAPP_USER: /run/secrets/civilapp_username
       CIVILAPP_PASSWORD: /run/secrets/civilapp_password
     volumes:

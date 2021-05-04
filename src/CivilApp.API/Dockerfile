@@ -6,14 +6,14 @@ EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
-WORKDIR /src
+WORKDIR /build
 COPY ./CivilApp.API/CivilApp.API.csproj ./
 COPY ./CivilApp.Core/CivilApp.Core.csproj ./
 COPY ./CivilApp.Infrastructure/CivilApp.Infrastructure.csproj ./
 
 RUN dotnet restore "CivilApp.API.csproj"
 COPY . .
-WORKDIR "/src/src/CivilApp.API"
+WORKDIR "/build/CivilApp.API"
 RUN dotnet build "CivilApp.API.csproj" -c Release -o /app/build
 
 FROM build AS publish

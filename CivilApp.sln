@@ -13,6 +13,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CivilApp.Infrastructure", "
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "src\docker-compose.dcproj", "{5563B4D5-BC55-4F18-B6FF-ADA38E606B86}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{C754929D-7881-4DC0-9F4C-EDB182B1BCF2}"
+	ProjectSection(SolutionItems) = preProject
+		src\database\configure-db.sh = src\database\configure-db.sh
+		src\database\Dockerfile = src\database\Dockerfile
+		src\database\entrypoint.sh = src\database\entrypoint.sh
+		src\database\setup.template = src\database\setup.template
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +87,7 @@ Global
 		{6E867AAB-2409-4D8A-A6FB-E5508C7B8B25} = {ACA5BFE8-114C-40E1-8128-626A35D471C9}
 		{D4D06750-9FFD-41B3-8B30-94F3DED6AA03} = {ACA5BFE8-114C-40E1-8128-626A35D471C9}
 		{3D473B23-E28E-478F-8CB3-1A8EDB0DD54C} = {ACA5BFE8-114C-40E1-8128-626A35D471C9}
+		{C754929D-7881-4DC0-9F4C-EDB182B1BCF2} = {ACA5BFE8-114C-40E1-8128-626A35D471C9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1C0F563E-D2FA-49CF-9C0B-2CBEEEC95DB9}

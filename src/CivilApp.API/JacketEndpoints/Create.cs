@@ -7,6 +7,8 @@ using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
 
+using Swashbuckle.AspNetCore.Annotations;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +26,13 @@ namespace CivilApp.API.JacketEndpoints
             _mediator = mediator;
         }
 
+        [HttpGet("/jackets")]
+        [SwaggerOperation(
+            Summary = "Create a new jacket",
+            Description = "Create a new jacket from scratch",
+            OperationId = "Jacket.Create",
+            Tags = new[] { "JacketEndpoint" })
+        ]
         public async override Task<ActionResult<CreateJacketResponse>> HandleAsync(CreateJacketRequest request, CancellationToken cancellationToken = default)
         {
             return await _mediator.Send(request);

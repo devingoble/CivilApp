@@ -9,6 +9,9 @@
     <DockerServiceName>civilapp.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
+    <None Include=".env" />
+    <None Include=".secrets\civilapp_password.txt" />
+    <None Include=".secrets\civilapp_username.txt" />
     <None Include=".secrets\sql_sa_password.txt" />
     <None Include="docker-compose.override.yml">
       <DependentUpon>docker-compose.yml</DependentUpon>

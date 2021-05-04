@@ -1,0 +1,16 @@
+﻿:setvar db $(CIVILAPP_DATABASE)
+:setvar usr $(CIVILAPP_USER)
+:setvar pwd $(CIVILAPP_PASSWORD)
+
+CREATE DATABASE $(db);
+GO
+USE $(db);
+GO
+CREATE LOGIN $(usr) WITH PASSWORD = '$(pwd)';
+GO
+SELECT @@VERSION
+GO
+CREATE USER $(usr) FOR LOGIN $(usr);
+GO
+ALTER ROLE db_owner ADD MEMBER [$(usr)];
+GO
